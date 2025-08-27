@@ -126,7 +126,7 @@ Route::middleware(['auth','verified'])->group(function () {
 
     /*
     |----------------------------------------------------------------------
-    | KEUANGAN
+    | KEUANGAN UNIVERSITAS
     |----------------------------------------------------------------------
     */
     Route::prefix('keuangan')->middleware('role:keuangan')->group(function () {
