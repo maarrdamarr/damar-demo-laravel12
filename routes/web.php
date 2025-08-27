@@ -104,7 +104,7 @@ Route::middleware(['auth','verified'])->group(function () {
 
     /*
     |----------------------------------------------------------------------
-    | OPERATOR PRODI
+    | OPERATOR PRODI UNIVERSITAS
     |----------------------------------------------------------------------
     */
     Route::prefix('operator')->middleware('role:operator')->group(function () {
