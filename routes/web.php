@@ -91,7 +91,7 @@ Route::middleware(['auth','verified'])->group(function () {
 
     /*
     |----------------------------------------------------------------------
-    | DOSEN
+    | DOSEN UNIVERSITAS
     |----------------------------------------------------------------------
     */
     Route::prefix('dosen')->middleware('role:dosen')->group(function () {
