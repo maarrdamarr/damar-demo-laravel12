@@ -29,28 +29,47 @@
         <div class="px-3 pt-4 text-[11px] uppercase tracking-wider text-gray-500">Mahasiswa</div>
         <a href="{{ route('mhs.krs') }}" class="block px-3 py-2 rounded {{ nav_active('mhs.krs') }}">📝 KRS</a>
         <a href="{{ route('mhs.tagihan') }}" class="block px-3 py-2 rounded {{ nav_active('mhs.tagihan') }}">💳 Tagihan UKT</a>
+        <a href="{{ route('mhs.pay.guide') }}" class="block px-3 py-2 rounded {{ nav_active('mhs.pay.guide') }}">🏦 Metode Pembayaran</a>
+        <details class="px-1">
+          <summary class="cursor-pointer px-2 py-2 rounded {{ request()->routeIs('mhs.req.*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700 hover:bg-gray-50' }}">📄 Layanan Akademik</summary>
+          <div class="pl-4 py-2 space-y-1">
+            <a href="{{ route('mhs.req.cuti.form') }}" class="block px-2 py-1 rounded {{ nav_active('mhs.req.cuti.form') }}">Pengajuan Cuti</a>
+            <a href="{{ route('mhs.req.resign.form') }}" class="block px-2 py-1 rounded {{ nav_active('mhs.req.resign.form') }}">Pengunduran Diri</a>
+            <a href="{{ route('mhs.req.history') }}" class="block px-2 py-1 rounded {{ nav_active('mhs.req.history') }}">Riwayat Pengajuan</a>
+          </div>
+        </details>
+        <a href="{{ route('mhs.cs') }}" class="block px-3 py-2 rounded {{ nav_active('mhs.cs') }}">💬 CS & Bantuan</a>
         @endrole
 
         @role('dosen')
         <div class="px-3 pt-4 text-[11px] uppercase tracking-wider text-gray-500">Dosen</div>
         <a href="{{ route('dsn.nilai') }}" class="block px-3 py-2 rounded {{ nav_active('dsn.nilai') }}">✍️ Input Nilai</a>
+        <a href="{{ route('dsn.presensi') }}" class="block px-3 py-2 rounded {{ nav_active('dsn.presensi') }}">🗓️ Presensi</a>
+        <a href="{{ route('dsn.bimbingan') }}" class="block px-3 py-2 rounded {{ nav_active('dsn.bimbingan') }}">👨‍🏫 Bimbingan/KRS</a>
         @endrole
 
         @role('operator')
         <div class="px-3 pt-4 text-[11px] uppercase tracking-wider text-gray-500">Operator Prodi</div>
         <a href="{{ route('opr.master') }}" class="block px-3 py-2 rounded {{ nav_active('opr.master') }}">🧩 Master Data</a>
+        <a href="{{ route('opr.schedule') }}" class="block px-3 py-2 rounded {{ nav_active('opr.schedule') }}">🗂️ Jadwal & Penjadwalan</a>
+        <a href="{{ route('opr.sync') }}" class="block px-3 py-2 rounded {{ nav_active('opr.sync') }}">🔁 Sinkron Semester</a>
         @endrole
 
         @role('keuangan')
         <div class="px-3 pt-4 text-[11px] uppercase tracking-wider text-gray-500">Keuangan</div>
         <a href="{{ route('keu.tagihan') }}" class="block px-3 py-2 rounded {{ nav_active('keu.tagihan') }}">📄 Tagihan & Pembayaran</a>
+        <a href="{{ route('keu.report') }}" class="block px-3 py-2 rounded {{ nav_active('keu.report') }}">📈 Laporan Penerimaan</a>
+        <a href="{{ route('keu.methods') }}" class="block px-3 py-2 rounded {{ nav_active('keu.methods') }}">🏦 Metode Pembayaran</a>
         @endrole
 
         @role('admin')
         <div class="px-3 pt-4 text-[11px] uppercase tracking-wider text-gray-500">Admin</div>
         <a href="{{ route('users.index') }}" class="block px-3 py-2 rounded {{ nav_active('users.*') }}">👥 Manajemen User</a>
+        <a href="{{ route('admin.roles') }}" class="block px-3 py-2 rounded {{ nav_active('admin.roles') }}">🛡️ Roles & Permission</a>
+        <a href="{{ route('admin.system') }}" class="block px-3 py-2 rounded {{ nav_active('admin.system') }}">⚙️ Pengaturan Sistem</a>
         @endrole
       </nav>
+
     </aside>
 
     {{-- Main --}}
