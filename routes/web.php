@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\Mahasiswa\KRSController;
 use App\Http\Controllers\Mahasiswa\PaymentGuideController;
 use App\Http\Controllers\Mahasiswa\StudentServiceController;
+use App\Http\Controllers\Mahasiswa\NotificationController;
 
 // Dosen
 use App\Http\Controllers\Dosen\NilaiController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Dosen\BimbinganController;
 // Operator
 use App\Http\Controllers\Operator\MasterDataController;
 use App\Http\Controllers\Operator\ScheduleController;
+use App\Http\Controllers\Operator\StudentRequestApprovalController;
 
 // Keuangan
 use App\Http\Controllers\Keuangan\BillingController;
@@ -108,20 +110,35 @@ Route::middleware(['auth','verified'])->group(function () {
     |----------------------------------------------------------------------
     */
     Route::prefix('operator')->middleware('role:operator')->group(function () {
-        // Master Data
+        // ===== Dashboard Master Data (Prodi) =====
         Route::get('master-data', [MasterDataController::class,'index'])->name('opr.master');
+
+        // Program Studi
         Route::post('master-data/program', [MasterDataController::class,'storeProgram'])->name('opr.program.store');
         Route::delete('master-data/program/{program}', [MasterDataController::class,'destroyProgram'])->name('opr.program.destroy');
 
+        // Mata Kuliah
         Route::post('master-data/course', [MasterDataController::class,'storeCourse'])->name('opr.course.store');
         Route::delete('master-data/course/{course}', [MasterDataController::class,'destroyCourse'])->name('opr.course.destroy');
 
+        // Kelas MK
         Route::post('master-data/class', [MasterDataController::class,'storeClass'])->name('opr.class.store');
         Route::delete('master-data/class/{courseClass}', [MasterDataController::class,'destroyClass'])->name('opr.class.destroy');
 
-        // Jadwal & Sinkron
+        // ===== Penjadwalan & Sinkron Semester =====
         Route::get('schedule', [ScheduleController::class,'index'])->name('opr.schedule');
         Route::get('sync', [ScheduleController::class,'sync'])->name('opr.sync');
+
+        // ===== Approval Layanan Mahasiswa (Cuti/Pengunduran/Dispensasi) =====
+        Route::get('layanan-mahasiswa', [StudentRequestApprovalController::class,'index'])->name('opr.reqs.index');
+        Route::get('layanan-mahasiswa/{req}', [StudentRequestApprovalController::class,'show'])->name('opr.reqs.show');
+        Route::post('layanan-mahasiswa/{req}/approve', [StudentRequestApprovalController::class,'approve'])->name('opr.reqs.approve');
+        Route::post('layanan-mahasiswa/{req}/reject',  [StudentRequestApprovalController::class,'reject'])->name('opr.reqs.reject');
+
+        // Export PDF SK (hanya untuk status approved)
+        Route::get('layanan-mahasiswa/{req}/sk.pdf',
+            [StudentRequestApprovalController::class,'exportPdf']
+        )->name('opr.reqs.pdf');
     });
 
     /*
