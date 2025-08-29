@@ -9,6 +9,8 @@ use App\Http\Controllers\Mahasiswa\KRSController;
 use App\Http\Controllers\Dosen\NilaiController;
 use App\Http\Controllers\Operator\MasterDataController;
 use App\Http\Controllers\Keuangan\BillingController;
+use App\Http\Controllers\Mahasiswa\PaymentGuideController;
+use App\Http\Controllers\Operator\StudentRequestApprovalController;
 
 Route::get('/', function () {
     return Auth::check()
@@ -42,6 +44,8 @@ Route::middleware(['auth','verified'])->group(function () {
                 Route::post('pengunduran', [\App\Http\Controllers\Mahasiswa\StudentServiceController::class,'storeResign'])->name('mhs.req.resign.store');
 
                 Route::get('riwayat', [\App\Http\Controllers\Mahasiswa\StudentServiceController::class,'history'])->name('mhs.req.history');
+                Route::get('metode-pembayaran', [PaymentGuideController::class, 'show'])
+            ->name('mhs.pay.guide');
         });
             Route::get('cs', fn() => view('mahasiswa.cs'))->name('mhs.cs');
     });

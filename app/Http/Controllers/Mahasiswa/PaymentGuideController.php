@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class PaymentGuideController extends Controller
 {
-       public function show() { return view('mahasiswa.payment_guide'); }
+        public function show()
+    {
+        return view('mahasiswa.payment_guide'); // file view di bawah
+    }
 }
