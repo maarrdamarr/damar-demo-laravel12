@@ -23,20 +23,35 @@ Route::middleware(['auth','verified'])->group(function () {
     // Admin
     Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::resource('users', UserController::class);
+        Route::get('roles', fn() => view('admin.roles'))->name('admin.roles');
+        Route::get('system', [\App\Http\Controllers\Admin\SystemController::class,'index'])->name('admin.system');
     });
 
-    // Mahasiswa
-    Route::prefix('mahasiswa')->middleware('role:mahasiswa')->group(function () {
-        Route::get('krs', [KRSController::class, 'index'])->name('mhs.krs');
-        Route::post('krs/submit', [KRSController::class, 'submit'])->name('mhs.krs.submit');
-        Route::delete('krs/{plan}', [KRSController::class, 'drop'])->name('mhs.krs.drop');
-        Route::get('tagihan', [BillingController::class,'studentInvoices'])->name('mhs.tagihan');
+        // Mahasiswa
+        Route::prefix('mahasiswa')->middleware('role:mahasiswa')->group(function () {
+            Route::get('krs', [KRSController::class, 'index'])->name('mhs.krs');
+            Route::post('krs/submit', [KRSController::class, 'submit'])->name('mhs.krs.submit');
+            Route::delete('krs/{plan}', [KRSController::class, 'drop'])->name('mhs.krs.drop');
+            Route::get('tagihan', [BillingController::class,'studentInvoices'])->name('mhs.tagihan');
+
+            Route::prefix('layanan')->group(function () {
+                Route::get('cuti', [\App\Http\Controllers\Mahasiswa\StudentServiceController::class,'formCuti'])->name('mhs.req.cuti.form');
+                Route::post('cuti', [\App\Http\Controllers\Mahasiswa\StudentServiceController::class,'storeCuti'])->name('mhs.req.cuti.store');
+
+                Route::get('pengunduran', [\App\Http\Controllers\Mahasiswa\StudentServiceController::class,'formResign'])->name('mhs.req.resign.form');
+                Route::post('pengunduran', [\App\Http\Controllers\Mahasiswa\StudentServiceController::class,'storeResign'])->name('mhs.req.resign.store');
+
+                Route::get('riwayat', [\App\Http\Controllers\Mahasiswa\StudentServiceController::class,'history'])->name('mhs.req.history');
+        });
+            Route::get('cs', fn() => view('mahasiswa.cs'))->name('mhs.cs');
     });
 
     // Dosen
     Route::prefix('dosen')->middleware('role:dosen')->group(function () {
         Route::get('nilai', [NilaiController::class, 'index'])->name('dsn.nilai');
         Route::post('nilai/{krs}/update', [NilaiController::class,'update'])->name('dsn.nilai.update');
+        Route::get('presensi', [\App\Http\Controllers\Dosen\PresensiController::class,'index'])->name('dsn.presensi');
+    Route::get('bimbingan', [\App\Http\Controllers\Dosen\BimbinganController::class,'index'])->name('dsn.bimbingan');
     });
 
     // Operator
@@ -51,6 +66,8 @@ Route::middleware(['auth','verified'])->group(function () {
 
         Route::post('master-data/class', [MasterDataController::class,'storeClass'])->name('opr.class.store');
         Route::delete('master-data/class/{courseClass}', [MasterDataController::class,'destroyClass'])->name('opr.class.destroy');
+        Route::get('schedule', [\App\Http\Controllers\Operator\ScheduleController::class,'index'])->name('opr.schedule');
+        Route::get('sync', [\App\Http\Controllers\Operator\ScheduleController::class,'sync'])->name('opr.sync');
     });
 
     // Keuangan
@@ -59,6 +76,9 @@ Route::middleware(['auth','verified'])->group(function () {
         Route::post('tagihan/generate', [BillingController::class,'generate'])->name('keu.tagihan.generate');
         Route::post('pembayaran/create', [BillingController::class,'createPayment'])->name('keu.pembayaran.create');
         Route::post('pembayaran/verify', [BillingController::class,'verify'])->name('keu.pembayaran.verify');
+        Route::get('report', [\App\Http\Controllers\Keuangan\ReportController::class,'index'])->name('keu.report');
+        Route::get('methods', [\App\Http\Controllers\Keuangan\ReportController::class,'methods'])->name('keu.methods');
+
     });
 });
 
