@@ -53,6 +53,8 @@
         <a href="{{ route('opr.master') }}" class="block px-3 py-2 rounded {{ nav_active('opr.master') }}">🧩 Master Data</a>
         <a href="{{ route('opr.schedule') }}" class="block px-3 py-2 rounded {{ nav_active('opr.schedule') }}">🗂️ Jadwal & Penjadwalan</a>
         <a href="{{ route('opr.sync') }}" class="block px-3 py-2 rounded {{ nav_active('opr.sync') }}">🔁 Sinkron Semester</a>
+        <a href="{{ route('opr.reqs.index') }}" class="block px-3 py-2 rounded {{ nav_active('opr.reqs.*') }}">📑 Layanan Mahasiswa</a>
+
         @endrole
 
         @role('keuangan')

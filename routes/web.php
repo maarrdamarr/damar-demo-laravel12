@@ -68,6 +68,11 @@ Route::middleware(['auth','verified'])->group(function () {
         Route::delete('master-data/class/{courseClass}', [MasterDataController::class,'destroyClass'])->name('opr.class.destroy');
         Route::get('schedule', [\App\Http\Controllers\Operator\ScheduleController::class,'index'])->name('opr.schedule');
         Route::get('sync', [\App\Http\Controllers\Operator\ScheduleController::class,'sync'])->name('opr.sync');
+
+        Route::get('layanan-mahasiswa', [StudentRequestApprovalController::class,'index'])->name('opr.reqs.index');
+        Route::get('layanan-mahasiswa/{req}', [StudentRequestApprovalController::class,'show'])->name('opr.reqs.show');
+        Route::post('layanan-mahasiswa/{req}/approve', [StudentRequestApprovalController::class,'approve'])->name('opr.reqs.approve');
+        Route::post('layanan-mahasiswa/{req}/reject', [StudentRequestApprovalController::class,'reject'])->name('opr.reqs.reject');
     });
 
     // Keuangan
