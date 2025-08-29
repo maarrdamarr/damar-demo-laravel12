@@ -13,7 +13,7 @@
     <aside class="hidden md:block w-72 bg-white border-r">
       <div class="p-5 border-b">
         <div class="font-extrabold text-xl tracking-tight">DAMAR <span class="text-indigo-600">DCLASS</span></div>
-        <div class="text-xs text-gray-500 mt-1">Sistem Akademik Sederhana</div>
+        <div class="text-xs text-gray-500 mt-1">Sistem Akademik Perkuliahan</div>
       </div>
 
       @php
