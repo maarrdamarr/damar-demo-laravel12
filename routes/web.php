@@ -11,6 +11,7 @@ use App\Http\Controllers\Operator\MasterDataController;
 use App\Http\Controllers\Keuangan\BillingController;
 use App\Http\Controllers\Mahasiswa\PaymentGuideController;
 use App\Http\Controllers\Operator\StudentRequestApprovalController;
+use App\Http\Controllers\Mahasiswa\ProfileController;
 
 Route::get('/', function () {
     return Auth::check()
@@ -88,6 +89,13 @@ Route::middleware(['auth','verified'])->group(function () {
         Route::get('report', [\App\Http\Controllers\Keuangan\ReportController::class,'index'])->name('keu.report');
         Route::get('methods', [\App\Http\Controllers\Keuangan\ReportController::class,'methods'])->name('keu.methods');
 
+    });
+
+    Route::prefix('profil')->name('mhs.profile.')->group(function () {
+        Route::get('/',       [ProfileController::class,'index'])->name('index');
+        Route::post('/',      [ProfileController::class,'updateProfile'])->name('update');     // nama + email
+        Route::post('/avatar',[ProfileController::class,'updateAvatar'])->name('avatar');      // foto
+        Route::post('/password',[ProfileController::class,'updatePassword'])->name('password'); // password
     });
 });
 

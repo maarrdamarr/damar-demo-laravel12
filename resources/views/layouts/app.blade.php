@@ -30,6 +30,8 @@
         <a href="{{ route('mhs.krs') }}" class="block px-3 py-2 rounded {{ nav_active('mhs.krs') }}">📝 KRS</a>
         <a href="{{ route('mhs.tagihan') }}" class="block px-3 py-2 rounded {{ nav_active('mhs.tagihan') }}">💳 Tagihan UKT</a>
         <a href="{{ route('mhs.pay.guide') }}" class="block px-3 py-2 rounded {{ nav_active('mhs.pay.guide') }}">🏦 Metode Pembayaran</a>
+        <a href="{{ route('mhs.profile.index') }}" class="block px-3 py-2 rounded {{ nav_active('mhs.profile.*') }}">👤 Kelola Profil</a>
+
         <details class="px-1">
           <summary class="cursor-pointer px-2 py-2 rounded {{ request()->routeIs('mhs.req.*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700 hover:bg-gray-50' }}">📄 Layanan Akademik</summary>
           <div class="pl-4 py-2 space-y-1">
@@ -81,15 +83,37 @@
       <header class="bg-white border-b">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div class="md:hidden font-bold">DAMAR <span class="text-indigo-600">DCLASS</span></div>
+
+          @php
+            $u = auth()->user();
+            $avatar = $u?->avatar_path
+              ? asset('storage/'.$u->avatar_path)
+              : 'https://ui-avatars.com/api/?background=E5E7EB&color=111827&name='.urlencode($u?->name ?? 'U').'&size=64';
+
+            // link ke halaman profil mahasiswa jika ada
+            $profileUrl = (Route::has('mhs.profile.index') && $u?->hasRole('mahasiswa'))
+              ? route('mhs.profile.index')
+              : null;
+          @endphp
+
           <div class="flex items-center gap-3">
+            @if($profileUrl)
+              <a href="{{ $profileUrl }}" class="shrink-0" title="Kelola Profil">
+                <img src="{{ $avatar }}" class="w-9 h-9 rounded-full border object-cover" alt="avatar">
+              </a>
+            @else
+              <img src="{{ $avatar }}" class="w-9 h-9 rounded-full border object-cover shrink-0" alt="avatar">
+            @endif
+
             <div class="text-sm">
-              <div class="font-semibold">{{ auth()->user()->name ?? 'Guest' }}</div>
+              <div class="font-semibold leading-tight">{{ $u->name ?? 'Guest' }}</div>
               <div class="text-xs text-gray-500">
-                @foreach(auth()->user()->getRoleNames() ?? [] as $r)
+                @foreach($u?->getRoleNames() ?? [] as $r)
                   <span class="inline-flex items-center px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 mr-1">{{ $r }}</span>
                 @endforeach
               </div>
             </div>
+
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button class="text-xs px-3 py-2 rounded bg-gray-100 hover:bg-gray-200">Logout</button>
@@ -97,6 +121,7 @@
           </div>
         </div>
       </header>
+
 
       {{-- Content --}}
       <main class="max-w-7xl mx-auto w-full px-4 py-6">
